@@ -3,7 +3,7 @@ name = "ActiveCollab"
 authors = [
   { name="Ankushtpss", email="ankushkumartpss@gmail.com" },
 ]
-description = "A Python module to interact with ActiveCollab"
+description = "A Python module to interact with ActiveCollab and perform certain actions"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [

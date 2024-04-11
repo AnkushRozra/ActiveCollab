@@ -15,7 +15,7 @@ setup(
     author="ankushtpss",
     author_email="ankushkumartpss@gmail.com",
     packages = find_packages(),
-    python_requires='>=3.10',
+    python_requires='>=3.8',
     url='https://github.com/Ankushtpss/ActiveCollab',
     keywords='ActiveCollab active collab',
     install_requires=[

@@ -1,1 +1,1 @@
-from .ActiveCollab import Main
+from .ActiveCollab import Connect

@@ -21,7 +21,7 @@ from re import fullmatch
 import time , os
 
 
-class Main:
+class Connect:
     def __init__(self , host_url , login_email , login_password):
         self.host_url = host_url.rsplit('/' , (host_url.count('/') - 2))[0]
         chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())

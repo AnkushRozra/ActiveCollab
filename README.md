@@ -15,7 +15,7 @@ This project aims to build a headless interaction with your active collab using 
 ```console
 pip install ActiveCollab
 ```
-whatsapp-auto officially supports Python 3.8+.
+ActiveCollab officially supports Python 3.8+.
 
 ## Usage
 

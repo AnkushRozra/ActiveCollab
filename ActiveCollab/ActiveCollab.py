@@ -37,7 +37,7 @@ class Connect:
         driver = webdriver.Chrome(service=chrome_service , options=chrome_options)
         self.wait_30 = WebDriverWait(driver , 30)
         self.wait_10 = WebDriverWait(driver , 10)
-        self.wait_5 = WebDriverWait(driver , 5)
+        self.wait_2 = WebDriverWait(driver , 2)
         driver.get(host_url)
         time.sleep(5)
 
@@ -70,13 +70,13 @@ class Connect:
         """
         self.driver.get(f'{self.host_url}/projects')
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="projects"]/div/div/h1'))).text == 'Sign in to ActiveCollab':
                 print('You are not logged in')
         except:
             pass
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="main_message_inner"]/span'))).text:
                 print(self.driver.find_element(By.XPATH,value='//*[@id="main_message_inner"]/span').text)
         except:
@@ -97,13 +97,13 @@ class Connect:
         """
         self.driver.get(f'{self.host_url}/people')
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="projects"]/div/div/h1'))).text == 'Sign in to ActiveCollab':
                 print('You are not logged in')
         except:
             pass
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="main_message_inner"]/span'))).text:
                 print(self.driver.find_element(By.XPATH,value='//*[@id="main_message_inner"]/span').text)
         except:
@@ -126,13 +126,13 @@ class Connect:
         """
         self.driver.get(f'{self.host_url}/projects/{project_id}/members')
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="projects"]/div/div/h1'))).text == 'Sign in to ActiveCollab':
                 print('You are not logged in')
         except:
             pass
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="main_message_inner"]/span'))).text:
                 print(self.driver.find_element(By.XPATH,value='//*[@id="main_message_inner"]/span').text)
         except:
@@ -151,17 +151,17 @@ class Connect:
 
         :param project_id: Project id in which you want to add the user
         :param user_name_or_user_email: User name or email that you want to add, Make sure to use full name to avoid
-        :return: User added OR something went wrong
+        :return: User added
         """
         self.driver.get(f'{self.host_url}/projects/{project_id}/members')
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="projects"]/div/div/h1'))).text == 'Sign in to ActiveCollab':
                 print('You are not logged in')
         except:
             pass
         try:
-            if self.wait_5.until(EC.presence_of_element_located(
+            if self.wait_2.until(EC.presence_of_element_located(
                     (By.XPATH , '//*[@id="main_message_inner"]/span'))).text:
                 print(self.driver.find_element(By.XPATH,value='//*[@id="main_message_inner"]/span').text)
         except:
@@ -184,6 +184,93 @@ class Connect:
             print(e)
             self.driver.close()
             self.driver.quit()
+
+    def add_note_in_project(self,project_id,note_title,note_content):
+        """
+        :param note_title: Title of your note
+        :param note_content: content of the note
+        :param project_id: Project id in which you want to add the user
+        :return: Notes added with note URL
+        """
+        self.driver.get(f'{self.host_url}/projects/{project_id}/notes/add')
+        try:
+            if self.wait_2.until(EC.presence_of_element_located(
+                    (By.XPATH , '//*[@id="projects"]/div/div/h1'))).text == 'Sign in to ActiveCollab':
+                print('You are not logged in')
+        except:
+            pass
+        try:
+            if self.wait_2.until(EC.presence_of_element_located(
+                    (By.XPATH , '//*[@id="main_message_inner"]/span'))).text:
+                print(self.driver.find_element(By.XPATH,value='//*[@id="main_message_inner"]/span').text)
+        except:
+            pass
+        try:
+            self.wait_2.until((EC.presence_of_element_located((By.XPATH,"//input[@placeholder='Title of the note']")))).send_keys(note_title)
+            # self.wait_10.until((EC.presence_of_element_located((By.XPATH,"//input[@placeholder='Title of the note']")))).send_keys(Keys.TAB)
+            # init = input('wait..')
+            self.wait_2.until((EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/section/div/div/div/form/div/div/div/div[1]/div/div[2]/div/div[2]')))).send_keys(note_content)
+            self.wait_2.until((EC.presence_of_element_located((By.XPATH,"//button[@type='submit']")))).click()
+            if self.wait_10.until(EC.presence_of_element_located((By.CLASS_NAME,"project_object_location"))):
+                return print(f'Note created: {self.driver.current_url}')
+        except Exception as e:
+            print('Something went wrong.')
+            print(e)
+            self.driver.close()
+            self.driver.quit()
+
+
+    def add_task_in_project(self,project_id,task_title,task_description,task_assignee):
+
+        global task_id
+        self.driver.get(f'{self.host_url}/projects/{project_id}/')
+        try:
+            if self.wait_2.until(EC.presence_of_element_located(
+                    (By.XPATH , '//*[@id="projects"]/div/div/h1'))).text == 'Sign in to ActiveCollab':
+                print('You are not logged in')
+        except:
+            pass
+        try:
+            if self.wait_2.until(EC.presence_of_element_located(
+                    (By.XPATH , '//*[@id="main_message_inner"]/span'))).text:
+                print(self.driver.find_element(By.XPATH,value='//*[@id="main_message_inner"]/span').text)
+        except:
+            pass
+        try:
+            self.wait_10.until(EC.presence_of_element_located((By.CLASS_NAME,"SortableListItem")))
+            current_task_ids = self.driver.find_elements(By.CLASS_NAME,value="SortableListItem")
+            current_task_list = []
+            updated_task_list = []
+            for i in current_task_ids:
+                current_task_list.append(i.get_attribute('data-id'))
+            self.driver.find_elements(By.CLASS_NAME,value="add-icon")[0].click()
+            self.driver.find_element(By.XPATH,value="//input[@id='taskNameInput']").send_keys(task_title)
+            self.driver.find_element(By.CLASS_NAME,value="mce-content-body").send_keys(task_description)
+            self.driver.find_element(By.XPATH,value="//span[@class='slim_control_label on-focus']").click()
+            self.wait_2.until(EC.presence_of_element_located((By.XPATH,"//input[@placeholder='Choose an assignee']"))).send_keys(str(task_assignee).strip())
+            # time.sleep(0.2)
+            self.driver.find_element(By.XPATH,value="//input[@placeholder='Choose an assignee']").send_keys(Keys.ENTER)
+            self.driver.find_element(By.XPATH,value="//button[normalize-space()='Add Task']").click()
+            time.sleep(3)
+            updated_task_ids = self.driver.find_elements(By.CLASS_NAME,value="SortableListItem")
+            for i in updated_task_ids:
+                updated_task_list.append(i.get_attribute('data-id'))
+            if len(current_task_ids)<len(updated_task_ids):
+                for i in updated_task_list:
+                    if i not in current_task_list:
+                        task_id = i
+                return print(f"Task created: {self.host_url}/projects/{project_id}?modal=Task-{task_id}-{project_id}")
+            else:
+                return print('Task not created')
+        except Exception as e:
+            print('Something went wrong.')
+            print(e)
+            self.driver.close()
+            self.driver.quit()
+
+
+
+
 
 
 

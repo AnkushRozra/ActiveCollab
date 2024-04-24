@@ -3,4 +3,4 @@ ActiveCollab/test.py
 env
 .venv
 .idea
-ActiveCollab/__pycache__
+__pycache__

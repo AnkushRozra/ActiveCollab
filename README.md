@@ -32,6 +32,11 @@ ac = ActiveCollab.Connect(host_url,user_name,password)  # Login to Active Collab
 ac.list_projects()  # List out all project assigned to logged in user
 ```
 
+### List all task-list of a project
+```python
+ac.list_project_tasklist(project_id)  # List out all task-list of a project
+```
+
 ### List all users
 ```python
 ac.list_users()  # List out all users in your organization with id, name and email

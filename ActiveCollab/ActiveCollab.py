@@ -34,19 +34,44 @@ class Connect:
 
         if response.status_code == 200:
             projects = []
-            project = {}
             projects_data = response.json()
 
         if response.status_code != 200:
-            print('Error while fetching projects')
+            print(f'Error while fetching projects {response.status_code}')
             sys.exit()
 
         for i in projects_data:
+            project = {}
             project['id'] = i['id']
             project['name'] = i['name']
             project['members'] = i['members']
             projects.append(project)
         return projects
+    def list_project_tasklist(self,project_id):
+        """
+        :return: list of all projects you have with their project number
+        """
+        url = f'{self.host_url}/api/v1/projects/{project_id}/task-lists'
+        headers = {"Content-Type": "application/json" ,
+                   "X-Angie-AuthApiToken": self.token}
+
+        response = requests.get(url , headers=headers)
+
+        if response.status_code == 200:
+            projects_tasklist = []
+            projects_data = response.json()
+
+        if response.status_code != 200:
+            print(f'Error while fetching project {response.status_code}')
+            sys.exit()
+
+        for i in projects_data:
+            projects_tasklist_data = {}
+            projects_tasklist_data['id'] = i['id']
+            projects_tasklist_data['name'] = i['name']
+            projects_tasklist.append(projects_tasklist_data)
+            print(projects_tasklist)
+        return projects_tasklist
 
     def list_users(self):
         """
@@ -60,14 +85,15 @@ class Connect:
 
         if response.status_code == 200:
             users = []
-            user = {}
             users_data = response.json()
+            print(users_data)
 
         if response.status_code != 200:
             print('Error while fetching users')
             sys.exit()
 
         for i in users_data:
+            user = {}
             user['id'] = i['id']
             user['name'] = i['first_name']
             user['email'] = i['email']
